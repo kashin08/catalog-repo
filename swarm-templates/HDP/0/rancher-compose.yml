@@ -1,0 +1,24 @@
+.catalog:
+  name: HDP
+  version: 1.0-rancher2
+  description: |
+    (Experimental) Hortonworks Data Platform cluster.
+  minimum_rancher_version: v0.56.0
+  uuid: hdp-0
+  questions:
+    - variable: "slave_count"
+      description: "Number of cluster nodes in slave role"
+      label: "Slave Count:"
+      required: true
+      default: 1
+      type: "int"
+    - variable: "blueprint"
+      label: "Blueprint"
+      description: "Choose one blueprint"
+      type: enum   
+      options:
+        - multi-node-hdfs-yarn
+        - single-node-hdfs-yarn
+
+amb-agent:
+  scale: ${slave_count}
