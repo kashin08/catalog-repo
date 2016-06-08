@@ -1,3 +1,4 @@
+version: '2'
 amb-server:
   image: hortonworks/ambari-server
   privileged: true
