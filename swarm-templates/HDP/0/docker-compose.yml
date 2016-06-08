@@ -1,24 +1,25 @@
 version: '2'
-amb-server:
-  image: hortonworks/ambari-server
-  privileged: true
-  hostname: amb-server
-  command: systemd.setenv=USE_CONSUL_DNS=false
-amb-agent:
-  image: hortonworks/ambari-agent
-  privileged: true
-  hostname: amb-agent
-  command: systemd.setenv=USE_CONSUL_DNS=false
-  depends_on:
-    - amb-server
-hdp-provision:
-  image: hortonworks/ambari-server
-  stdin_open: true
-  tty: true
-  environment:
-    EXPECTED_HOST_COUNT: ${slave_count}
-    BLUEPRINT: ${blueprint}
-  command: /tmp/wait-for-host-number.sh; /tmp/install-cluster.sh
-  depends_on:
-    - amb-agent
+services:
+  amb-server:
+    image: hortonworks/ambari-server
+    privileged: true
+    hostname: amb-server
+    command: systemd.setenv=USE_CONSUL_DNS=false
+  amb-agent:
+    image: hortonworks/ambari-agent
+    privileged: true
+    hostname: amb-agent
+    command: systemd.setenv=USE_CONSUL_DNS=false
+    depends_on:
+      - amb-server
+  hdp-provision:
+    image: hortonworks/ambari-server
+    stdin_open: true
+    tty: true
+    environment:
+      EXPECTED_HOST_COUNT: ${slave_count}
+      BLUEPRINT: ${blueprint}
+    command: /tmp/wait-for-host-number.sh; /tmp/install-cluster.sh
+    depends_on:
+      - amb-agent
 
