@@ -1,25 +1,30 @@
-version: '2'
-services:
-  amb-server:
-    image: hortonworks/ambari-server
-    privileged: true
-    hostname: amb-server
-    command: systemd.setenv=USE_CONSUL_DNS=false
-  amb-agent:
-    image: hortonworks/ambari-agent
-    privileged: true
-    hostname: amb-agent
-    command: systemd.setenv=USE_CONSUL_DNS=false
-    depends_on:
-      - amb-server
-  hdp-provision:
-    image: hortonworks/ambari-server
-    stdin_open: true
-    tty: true
-    environment:
-      EXPECTED_HOST_COUNT: ${slave_count}
-      BLUEPRINT: ${blueprint}
-    command: /tmp/wait-for-host-number.sh; /tmp/install-cluster.sh
-    depends_on:
-      - amb-agent
-
+amb-agent:
+  labels:
+    io.rancher.container.pull_image: always
+  command:
+  - systemd.setenv=USE_CONSUL_DNS=false
+  - systemd.setenv=AMBARI_SERVER_ADDR=ambariserver
+  image: hortonworks/ambari-agent
+  links:
+  - amb-server:ambariserver
+  privileged: true
+amb-server:
+  ports:
+  - 8080:8080/tcp
+  labels:
+    io.rancher.container.pull_image: always
+  command:
+  - systemd.setenv=USE_CONSUL_DNS=false
+  image: hortonworks/ambari-server
+  privileged: true
+provision:
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.container.start_once: 'true'
+  tty: true
+  entrypoint:
+  - /bin/bash
+  image: hortonworks/ambari-server
+  links:
+  - amb-server:ambariserver
+  stdin_open: true

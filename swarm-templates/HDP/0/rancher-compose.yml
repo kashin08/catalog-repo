@@ -6,11 +6,11 @@
   minimum_rancher_version: v0.56.0
   uuid: hdp-0
   questions:
-    - variable: "slave_count"
-      description: "Number of cluster nodes in slave role"
-      label: "Slave Count:"
+    - variable: "node_count"
+      description: "Number of cluster nodes"
+      label: "Node Count:"
       required: true
-      default: 1
+      default: 2
       type: "int"
     - variable: "blueprint"
       label: "Blueprint"
@@ -21,4 +21,8 @@
         - single-node-hdfs-yarn
 
 amb-agent:
-  scale: ${slave_count}
+  scale: ${node_count}
+amb-server:
+  scale: 1
+provision:
+  scale: 1
