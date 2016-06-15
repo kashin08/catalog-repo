@@ -28,3 +28,6 @@ provision:
   links:
   - amb-server:ambariserver
   stdin_open: true
+  environment:
+    EXPECTED_HOST_COUNT: ${node_count}
+    BLUEPRINT: ${blueprint}
