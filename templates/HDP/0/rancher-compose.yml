@@ -1,5 +1,5 @@
 .catalog:
-  name: hdp
+  name: HDP
   version: 1.0-rancher2
   description: |
     (Experimental) Hortonworks Data Platform cluster.

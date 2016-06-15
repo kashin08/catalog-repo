@@ -1,0 +1,51 @@
+amb1:
+  labels:
+    io.rancher.container.pull_image: always
+  command:
+  - systemd.setenv=CLOUD_PLATFORM=OPENSTACK
+  - systemd.setenv=AMBARI_SERVER_ADDR=amb-server
+  - systemd.setenv=USE_CONSUL_DNS=false
+  hostname: amb1
+  image: hortonworks/ambari-agent:latest
+  privileged: true
+amb2:
+  labels:
+    io.rancher.container.pull_image: always
+  command:
+  - systemd.setenv=CLOUD_PLATFORM=OPENSTACK
+  - systemd.setenv=AMBARI_SERVER_ADDR=amb-server
+  - systemd.setenv=USE_CONSUL_DNS=false
+  hostname: amb2
+  image: hortonworks/ambari-agent:latest
+  privileged: true
+amb3:
+  labels:
+    io.rancher.container.pull_image: always
+  command:
+  - systemd.setenv=CLOUD_PLATFORM=OPENSTACK
+  - systemd.setenv=AMBARI_SERVER_ADDR=amb-server
+  - systemd.setenv=USE_CONSUL_DNS=false
+  hostname: amb3
+  image: hortonworks/ambari-agent:latest
+  privileged: true
+amb-httpd:
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  hostname: amb-httpd
+  image: httpd
+  volumes:
+  - /home/ubuntu/httpd:/usr/local/apache2/htdocs/
+  stdin_open: true
+amb-server:
+  ports:
+  - 8080:8080/tcp
+  labels:
+    io.rancher.sidekicks: amb1,amb2,amb3,amb-httpd
+    io.rancher.container.pull_image: always
+  command:
+  - systemd.setenv=CLOUD_PLATFORM=OPENSTAC
+  - systemd.setenv=USE_CONSUL_DNS=false
+  hostname: amb-server
+  image: hortonworks/ambari-server:latest
+  privileged: true

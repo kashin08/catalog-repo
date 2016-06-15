@@ -1,0 +1,30 @@
+amb-agent:
+  labels:
+    io.rancher.container.pull_image: always
+  command:
+  - systemd.setenv=USE_CONSUL_DNS=false
+  - systemd.setenv=AMBARI_SERVER_ADDR=ambariserver
+  image: hortonworks/ambari-agent
+  links:
+  - amb-server:ambariserver
+  privileged: true
+amb-server:
+  ports:
+  - 8080:8080/tcp
+  labels:
+    io.rancher.container.pull_image: always
+  command:
+  - systemd.setenv=USE_CONSUL_DNS=false
+  image: hortonworks/ambari-server
+  privileged: true
+provision:
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.container.start_once: 'true'
+  tty: true
+  entrypoint:
+  - /bin/bash
+  image: hortonworks/ambari-server
+  links:
+  - amb-server:ambariserver
+  stdin_open: true

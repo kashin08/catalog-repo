@@ -1,0 +1,22 @@
+.catalog:
+  name: hdp
+  version: 1.2-rancher2
+  description: |
+    (Experimental) Hortonworks Data Platform cluster.
+  minimum_rancher_version: v0.56.0
+  uuid: hdp-1
+amb1:
+  scale: 1
+  retain_ip: true
+amb2:
+  scale: 1
+  retain_ip: true
+amb3:
+  scale: 1
+  retain_ip: true
+amb-httpd:
+  scale: 1
+  retain_ip: true
+amb-server:
+  scale: 1
+  retain_ip: true
