@@ -19,7 +19,6 @@
       options:
         - multi-node-hdfs-yarn
         - single-node-hdfs-yarn
-
 amb-agent:
   scale: ${node_count}
 amb-server:
