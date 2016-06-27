@@ -1,5 +1,5 @@
-name: HDP
+name: Foxconn HDP
 description: |
-  Deploy HDP services via Ambari
+  Deploy Foxconn customized HDP services via Ambari
 version: 1.0-rancher1
 category: Big Data
