@@ -1,5 +1,5 @@
 .catalog:
-  name: HDP
+  name: "Foxconn HDP"
   version: 1.1.2-rancher2_experiment
   description: |
     (Experimental) Hortonworks Data Platform cluster.
