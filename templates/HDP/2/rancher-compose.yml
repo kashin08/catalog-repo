@@ -20,17 +20,18 @@
       options:
         - multi-node-hdfs-yarn
         - single-node-hdfs-yarn
-    - variable: "consul_dns_ip"
-      label: "Consul DNS IP"
-      description: "The IP of Consul DNS container"
-      type: string
+#    - variable: "consul_dns_ip"
+#      label: "Consul DNS IP"
+#      description: "The IP of Consul DNS container"
+#      type: string
 amb-agent:
   scale: ${node_count}
   retain_ip: true
 amb-server:
   scale: 1
   retain_ip: true
+consul-dns:
+  scale: 1
+  retain_ip: true
 provision:
   scale: 1
-#consul:
-#  scale: 1

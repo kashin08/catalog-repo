@@ -6,13 +6,13 @@ amb-agent:
   - systemd.setenv=USE_CONSUL_DNS=false
   - systemd.setenv=AMBARI_SERVER_ADDR=amb-server
   - systemd.setenv=CLOUD_PLATFORM=RANCHER
-  - systemd.setenv=CONSUL_DNS_IP=${consul_dns_ip}
+#  - systemd.setenv=CONSUL_DNS_IP=${consul_dns_ip}
   image: cloudchchen/ambari-agent:latest
   privileged: true
   dns_search:
   - node.dc1.consul
   dns:
-  - ${consul_dns_ip}
+  - consul-dns
 amb-server:
   ports:
   - 8080:8080/tcp
@@ -21,13 +21,20 @@ amb-server:
   command:
   - systemd.setenv=USE_CONSUL_DNS=false
   - systemd.setenv=CLOUD_PLATFORM=RANCHER
-  - systemd.setenv=CONSUL_DNS_IP=${consul_dns_ip}
+#  - systemd.setenv=CONSUL_DNS_IP=${consul_dns_ip}
   image: cloudchchen/ambari-server:latest
   privileged: true
   dns_search:
   - node.dc1.consul
   dns:
-  - ${consul_dns_ip}
+  - consul-dns
+consul-dns:
+  labels:
+    io.rancher.container.pull_image: always
+  command:
+  - -server
+  - -bootstrap
+  image: sequenceiq/consul:v0.5.0-v6
 provision:
   labels:
     io.rancher.container.pull_image: always
@@ -42,10 +49,3 @@ provision:
   environment:
     EXPECTED_HOST_COUNT: ${node_count}
     BLUEPRINT: ${blueprint}
-#consul:
-#  labels:
-#    io.rancher.container.pull_image: always
-#  command:
-#  - '-server'
-#  - '-bootstrap'
-#  image: kashin08/rancher-consul:latest
