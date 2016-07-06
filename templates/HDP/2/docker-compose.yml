@@ -11,6 +11,10 @@ amb-db:
   volumes:
   - /data/ambari-server/pgsql/data:/var/lib/postgresql/data
 amb-agent:
+  ports:
+  - 8088:8088/tcp
+  - 18080:18080/tcp
+  - 4040:4040/tcp
   labels:
     io.rancher.container.pull_image: always
     io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
