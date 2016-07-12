@@ -4,10 +4,8 @@ amb-db:
     POSTGRES_USER: ambari
   labels:
     io.rancher.container.pull_image: always
-  command:
-  - postgres
   hostname: amb-db
-  image: postgres
+  image: kashin08/fxn-postgres
   volumes:
   - /data/ambari-server/pgsql/data:/var/lib/postgresql/data
 amb-agent:
