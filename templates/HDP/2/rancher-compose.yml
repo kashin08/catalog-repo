@@ -38,3 +38,9 @@ amb-server:
 #  retain_ip: true
 provision:
   scale: 1
+hue:
+  scale: 1
+  retain_ip: true
+proxy:
+  scale: 1
+  retain_ip: true

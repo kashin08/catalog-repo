@@ -60,13 +60,45 @@ provision:
   labels:
     io.rancher.container.pull_image: always
     io.rancher.container.start_once: 'true'
-  tty: true
-  entrypoint:
-  - /bin/bash
-  image: hortonworks/ambari-server
   links:
   - amb-server:ambariserver
-  stdin_open: true
   environment:
     EXPECTED_HOST_COUNT: ${node_count}
     BLUEPRINT: ${blueprint}
+  entrypoint:
+  - /bin/bash
+  image: hortonworks/ambari-server
+  tty: true
+  stdin_open: true
+  dns_search:
+  - service.consul
+  - node.dc1.consul
+  dns:
+  - ${consul_dns_ip}
+hue:
+  ports:
+  - 8888:8888/tcp
+  labels:
+    io.rancher.container.pull_image: always
+  image: kashin08/persp-hue
+  tty: true
+  stdin_open: true
+  dns_search:
+  - service.consul
+  - node.dc1.consul
+  dns:
+  - ${consul_dns_ip}
+proxy:
+  ports:
+  - 8443:8443/tcp
+  - 10000:10000/tcp
+  labels:
+    io.rancher.container.pull_image: always
+  image: kashin08/persp-proxy
+  tty: true
+  stdin_open: true
+  dns_search:
+  - service.consul
+  - node.dc1.consul
+  dns:
+  - ${consul_dns_ip}
