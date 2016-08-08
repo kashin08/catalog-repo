@@ -25,6 +25,20 @@ amb-agent:
   privileged: true
   volumes:
   - /hadoop:/hadoop
+  - /usr/hdp:/usr/hdp
+  - /etc/falcon:/etc/falcon
+  - /etc/flume:/etc/flume
+  - /etc/hadoop:/etc/hadoop
+  - /etc/hive:/etc/hive
+  - /etc/hbase:/etc/hbase
+  - /etc/pig:/etc/pig
+  - /etc/oozie:/etc/oozie
+  - /etc/slider:/etc/slider
+  - /etc/spark:/etc/spark
+  - /etc/sqoop:/etc/sqoop
+  - /etc/storm:/etc/storm
+  - /etc/storm-slider-client:/etc/storm-slider-client
+  - /etc/zookeeper
   dns_search:
   - service.consul
   - node.dc1.consul
@@ -95,6 +109,34 @@ proxy:
   labels:
     io.rancher.container.pull_image: always
   image: kashin08/persp-proxy
+  tty: true
+  stdin_open: true
+  dns_search:
+  - service.consul
+  - node.dc1.consul
+  dns:
+  - ${consul_dns_ip}
+cli:
+  ports:
+  - 22:22/tcp
+  labels:
+    io.rancher.container.pull_image: always
+  image: kashin08/persp-cli
+  volumes:
+  - /usr/hdp:/usr/hdp:ro
+  - /etc/falcon:/etc/falcon:ro
+  - /etc/flume:/etc/flume:ro
+  - /etc/hadoop:/etc/hadoop:ro
+  - /etc/hive:/etc/hive:ro
+  - /etc/hbase:/etc/hbase:ro
+  - /etc/pig:/etc/pig:ro
+  - /etc/oozie:/etc/oozie:ro
+  - /etc/slider:/etc/slider:ro
+  - /etc/spark:/etc/spark:ro
+  - /etc/sqoop:/etc/sqoop:ro
+  - /etc/storm:/etc/storm:ro
+  - /etc/storm-slider-client:/etc/storm-slider-client:ro
+  - /etc/zookeeper:/etc/zookeeper:ro
   tty: true
   stdin_open: true
   dns_search:

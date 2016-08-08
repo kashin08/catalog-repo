@@ -44,3 +44,6 @@ hue:
 proxy:
   scale: 1
   retain_ip: true
+cli:
+  scale: 1
+  retain_ip: true
