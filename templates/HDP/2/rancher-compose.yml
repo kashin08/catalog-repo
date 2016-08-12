@@ -15,10 +15,10 @@
     - variable: "blueprint"
       label: "Blueprint"
       description: "Choose one blueprint"
-      default: multi-node-hdfs-yarn
+      default: multi-node-persp
       type: enum   
       options:
-        - multi-node-hdfs-yarn
+        - multi-node-persp
         - single-node-hdfs-yarn
     - variable: "consul_dns_ip"
       label: "Consul DNS IP"
@@ -33,17 +33,11 @@ amb-agent:
 amb-server:
   scale: 1
   retain_ip: true
-#consul-dns:
-#  scale: 1
-#  retain_ip: true
 provision:
   scale: 1
 hue:
   scale: 1
   retain_ip: true
 proxy:
-  scale: 1
-  retain_ip: true
-cli:
   scale: 1
   retain_ip: true

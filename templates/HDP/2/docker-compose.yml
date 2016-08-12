@@ -9,36 +9,15 @@ amb-db:
   volumes:
   - /data/ambari-server/pgsql/data:/var/lib/postgresql/data
 amb-agent:
-#  ports:
-#  - 8088:8088/tcp
-#  - 18080:18080/tcp
-#  - 4040:4040/tcp
   labels:
     io.rancher.container.pull_image: always
     io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
   command:
   - systemd.setenv=CLOUD_PLATFORM=RANCHER
-#  - systemd.setenv=USE_CONSUL_DNS=false
-#  - systemd.setenv=AMBARI_SERVER_ADDR=amb-server
-#  - systemd.setenv=CONSUL_DNS_IP=${consul_dns_ip}
   image: cloudchchen/ambari-agent:latest
   privileged: true
   volumes:
   - /hadoop:/hadoop
-  - /usr/hdp:/usr/hdp
-  - /etc/falcon:/etc/falcon
-  - /etc/flume:/etc/flume
-  - /etc/hadoop:/etc/hadoop
-  - /etc/hive:/etc/hive
-  - /etc/hbase:/etc/hbase
-  - /etc/pig:/etc/pig
-  - /etc/oozie:/etc/oozie
-  - /etc/slider:/etc/slider
-  - /etc/spark:/etc/spark
-  - /etc/sqoop:/etc/sqoop
-  - /etc/storm:/etc/storm
-  - /etc/storm-slider-client:/etc/storm-slider-client
-  - /etc/zookeeper
   dns_search:
   - service.consul
   - node.dc1.consul
@@ -52,8 +31,6 @@ amb-server:
   command:
   - systemd.setenv=CLOUD_PLATFORM=RANCHER
   - systemd.setenv=POSTGRES_DB=amb-db
-#  - systemd.setenv=USE_CONSUL_DNS=false
-#  - systemd.setenv=CONSUL_DNS_IP=${consul_dns_ip}
   image: cloudchchen/ambari-server:latest
   privileged: true
   links:
@@ -63,13 +40,6 @@ amb-server:
   - node.dc1.consul
   dns:
   - ${consul_dns_ip}
-#consul-dns:
-#  labels:
-#    io.rancher.container.pull_image: always
-#  command:
-#  - -server
-#  - -bootstrap
-#  image: sequenceiq/consul:v0.5.0-v6
 provision:
   labels:
     io.rancher.container.pull_image: always
@@ -109,34 +79,6 @@ proxy:
   labels:
     io.rancher.container.pull_image: always
   image: kashin08/persp-proxy
-  tty: true
-  stdin_open: true
-  dns_search:
-  - service.consul
-  - node.dc1.consul
-  dns:
-  - ${consul_dns_ip}
-cli:
-  ports:
-  - 22:22/tcp
-  labels:
-    io.rancher.container.pull_image: always
-  image: kashin08/persp-cli
-  volumes:
-  - /usr/hdp:/usr/hdp:ro
-  - /etc/falcon:/etc/falcon:ro
-  - /etc/flume:/etc/flume:ro
-  - /etc/hadoop:/etc/hadoop:ro
-  - /etc/hive:/etc/hive:ro
-  - /etc/hbase:/etc/hbase:ro
-  - /etc/pig:/etc/pig:ro
-  - /etc/oozie:/etc/oozie:ro
-  - /etc/slider:/etc/slider:ro
-  - /etc/spark:/etc/spark:ro
-  - /etc/sqoop:/etc/sqoop:ro
-  - /etc/storm:/etc/storm:ro
-  - /etc/storm-slider-client:/etc/storm-slider-client:ro
-  - /etc/zookeeper:/etc/zookeeper:ro
   tty: true
   stdin_open: true
   dns_search:
