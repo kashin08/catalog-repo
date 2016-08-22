@@ -14,7 +14,7 @@ amb-agent:
     io.rancher.scheduler.affinity:container_label_soft_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
   command:
   - systemd.setenv=CLOUD_PLATFORM=RANCHER
-  image: cloudchchen/ambari-agent:latest
+  image: kashin08/ambari-agent:latest
   privileged: true
   volumes:
   - /hadoop:/hadoop
@@ -31,7 +31,7 @@ amb-server:
   command:
   - systemd.setenv=CLOUD_PLATFORM=RANCHER
   - systemd.setenv=POSTGRES_DB=amb-db
-  image: cloudchchen/ambari-server:latest
+  image: kashin08/ambari-server:latest
   privileged: true
   links:
   - amb-db:amb-db
@@ -51,7 +51,7 @@ provision:
     BLUEPRINT: ${blueprint}
   entrypoint:
   - /bin/bash
-  image: hortonworks/ambari-server
+  image: kashin08/ambari-server:latest
   tty: true
   stdin_open: true
   dns_search:
